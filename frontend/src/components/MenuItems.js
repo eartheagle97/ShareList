@@ -7,16 +7,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/authProvider";
 
 const MainListItems = () => {
-  const { logout } = useUser();
-
+  const { setToken } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    setToken();
+    navigate("/login", { replace: true });
   };
 
   const mainMenu = [

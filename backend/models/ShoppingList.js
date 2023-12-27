@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Define the subItem schema
 const subItemSchema = new mongoose.Schema({
   name: String,
-  quantity: String,
+  qty: String,
+  qtyUnit: String,
   notes: String,
   purchased: Boolean,
 });
@@ -12,7 +13,7 @@ const subItemSchema = new mongoose.Schema({
 const shoppingListSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   name: {
@@ -23,12 +24,20 @@ const shoppingListSchema = new mongoose.Schema({
   collaborators: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
   ],
+  dateCreated: {
+    type: Date,
+    default: Date.now,
+  },
+  lastModified: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Create the shopping list model
-const ShoppingList = mongoose.model('ShoppingList', shoppingListSchema);
+const ShoppingList = mongoose.model("ShoppingList", shoppingListSchema);
 
 module.exports = ShoppingList;

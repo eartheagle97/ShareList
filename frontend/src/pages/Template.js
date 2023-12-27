@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import CopyRight from "../components/CopyRight";
 import Menu from "../components/Menu";
 import NavBar from "../components/NavBar";
+import { Container, Toolbar } from "@mui/material";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -33,11 +34,14 @@ export default function Template({ element, title }) {
             overflow: "auto",
           }}
         >
-          {element}
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            {element}
+          </Container>
           <CopyRight
             sx={{
               py: 2,
-              position: "fixed",
+              position: "relative",
               bottom: "0",
               backgroundColor: "white",
               width: "100%",

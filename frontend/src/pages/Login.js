@@ -15,12 +15,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CopyRight from "../components/CopyRight";
 import { useNavigate } from "react-router-dom";
 import axios from "../services/api";
-import { useUser } from "../context/UserContext";
+import { useAuth } from "../provider/authProvider";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const { login } = useUser();
+  const { setUserId, setToken } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
@@ -36,21 +36,18 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     axios
       .post("/auth/login", { email: user.email, password: user.password })
       .then((response) => {
-        const { token } = response.data;
-        // Assuming the backend returns user data upon successful login
-        const userData = response.data.user;
-        // Set the user in the UserContext
-        login(userData);
-
+        const { user, token } = response.data;
         // Store token in localStorage
-        localStorage.setItem("token", token);
+        setToken(token);
+        setUserId(user.id)
         // Redirect to the dashboard or another page if needed
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       })
       .catch((error) => {
         if (error.response) {
@@ -155,8 +152,8 @@ export default function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/register" variant="body2">
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>
